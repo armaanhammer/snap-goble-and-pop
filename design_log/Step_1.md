@@ -1,4 +1,4 @@
-# Step 1: Reimplement LockGuard
+# Step 1: BLE
 
 To duplicate
 ---

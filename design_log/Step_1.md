@@ -8,7 +8,7 @@ TBD
 Files
 ---
 
-* [main.go](../src/snap-goble-and-pop/main.go)
+* [main.go](../main.go)
 
 
 Results

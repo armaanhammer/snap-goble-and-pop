@@ -23,6 +23,12 @@ import (
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 )
 
+type advType struct {
+	c    chan string
+	name string
+}
+
+
 var (
 	// BLE
 	device = flag.String("device", "default", "implementation of ble")
@@ -53,6 +59,8 @@ type BleDev struct {
 
 func main() {
 	flag.Parse()
+
+	messages := make(chan string, 100)
 
 	// BLE setup
 	d, err := dev.NewDevice(*device)
@@ -87,16 +95,42 @@ func main() {
 	//client.Disconnect(250)
 	//fmt.Println("Sample Publisher Disconnected")
 
+	//bleScan(messages)
+
+	myChan := make(chan string, 1000)
+	// create new object with channel
+	newAdv := &advType{
+		c:    myChan, 
+		name: "main advertiser",         // give this advertiser a name
+	}
+
+
+
+
 	// BLE Scan for specified duration, or until interrupted by user.
 	fmt.Printf("Scanning for %s...\n", *du)
 	ctx := ble.WithSigHandler(context.WithTimeout(context.Background(), *du))
-	chkErr(ble.Scan(ctx, *dup, advHandler, nil))
+	chkErr(ble.Scan(ctx, *dup, newAdv.advHandler, nil))   // pass adv method to scan func
+	//defer close(messages)
 
-	client.Disconnect(250)
 }
 
 
-func advHandler(a ble.Advertisement) {
+//func bleScan(messages chan string) {
+//
+//}
+
+
+//func advHandler(a ble.Advertisement) {
+
+// make advHandler method of adv type
+func (adv *advType) advHandler(a ble.Advertisement) {
+	
+	// print the adv's name
+	fmt.Printf("Hello from inside adv: %s", adv.name)
+	// send something on the channel
+	adv.c <- "hello!"
+
 	bDev := BleDev{
 		Addr:		a.Addr().String(),
 		Rssi:		int64(a.RSSI()),
@@ -134,8 +168,10 @@ func advHandler(a ble.Advertisement) {
 	testString := string(jsonData)
 	fmt.Println(string(jsonData))
 
-	client := MQTT.Client
-	token := client.Publish(*topic, byte(*qos), false, testString)
+	//var client MQTT.Client
+
+	//client := MQTT.Client
+	//token := client.Publish(*topic, byte(*qos), false, testString)
 }
 
 

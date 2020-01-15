@@ -32,7 +32,7 @@ type advType struct {
 var (
 	// BLE
 	device = flag.String("device", "default", "implementation of ble")
-	du     = flag.Duration("du", 2*time.Second, "scanning duration")
+	du     = flag.Duration("du", 5*time.Second, "scanning duration")
 	dup    = flag.Bool("dup", true, "allow duplicate reported")
 
 	// MQTT
@@ -85,16 +85,6 @@ func main() {
 		panic(token.Error())
 	}
 
-	//fmt.Println("Sample Publisher Started")
-	//for i := 0; i < *num; i++ {
-	//	fmt.Println("---- doing publish ----")
-	//	token := client.Publish(*topic, byte(*qos), false, *payload)
-	//	token.Wait()
-	//}
-
-	//client.Disconnect(250)
-	//fmt.Println("Sample Publisher Disconnected")
-
 
 	myChan := make(chan string, 1000)
 	// create new object with channel
@@ -104,7 +94,7 @@ func main() {
 	}
 
 
-	bleScan(*newAdv)
+	go bleScan(*newAdv)
 	mqttSend(client, *newAdv)
 
 
@@ -120,16 +110,10 @@ func bleScan(newAdv advType) {
 }
 
 
-//func advHandler(a ble.Advertisement) {
 
 // make advHandler method of adv type
 func (adv *advType) advHandler(a ble.Advertisement) {
 	
-	// print the adv's name
-	//fmt.Printf("Hello from inside adv: %s", adv.name)
-	// send something on the channel
-	//adv.c <- "hello!"
-
 	bDev := BleDev{
 		Addr:		a.Addr().String(),
 		Rssi:		int64(a.RSSI()),
@@ -138,52 +122,35 @@ func (adv *advType) advHandler(a ble.Advertisement) {
 
 	if a.Connectable() {
 		bDev.Contable = true
-		//fmt.Printf("[%s] C %3d:", a.Addr(), a.RSSI())
-	} else {
-		//fmt.Printf("[%s] N %3d:", a.Addr(), a.RSSI())
 	}
-	//comma := ""
 	if len(a.LocalName()) > 0 {
 		bDev.Name = a.LocalName()
-		//fmt.Printf(" Name: %s", a.LocalName())
-		//comma = ","
 	}
 	if len(a.Services()) > 0 {
 		//bDev.Services = string(a.Services())
-		//fmt.Printf("%s Svcs: %v", comma, a.Services())
-		//comma = ","
 	}
 	if len(a.ManufacturerData()) > 0 {
 		bDev.ManData = a.ManufacturerData()
-		//fmt.Printf("%s MD: %X", comma, a.ManufacturerData())
 	}
-	//fmt.Printf("\n")
 
 	var jsonData []byte
 	jsonData, err := json.Marshal(bDev)
 	if err != nil {
     	log.Println(err)
 	}
-	//testString := string(jsonData)
-	fmt.Println(string(jsonData))
-
+	//fmt.Println(string(jsonData))
 	adv.c <- string(jsonData)
-
-	
-
-	//var client MQTT.Client
-	//client := MQTT.Client
 }
 
 
 func mqttSend(client MQTT.Client,adv advType) {
+	var i int
 	for m := range adv.c {
-		//test := <-m
-		//token := client.Publish(*topic, byte(*qos), false, test)
 		client.Publish(*topic, byte(*qos), false, m)
-		fmt.Println("In mqttSend: ", m)
-   		//fmt.Printf("I read string: %s from channel\n", m)
+		i++
+		//fmt.Println("In mqttSend: ", m)
 	}
+	fmt.Println("Sent ", i, " MQTT messages")
 }
 
 

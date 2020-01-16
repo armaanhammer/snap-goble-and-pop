@@ -64,3 +64,4 @@ osboxes@osboxes:~/go/src/snap-goble-and-pop$ echo $GOROOT
 
 osboxes@osboxes:~/go/src/snap-goble-and-pop$
 ```
+Uncertain whether paths and directories mentioned are within the virtual build environment or within the main system.

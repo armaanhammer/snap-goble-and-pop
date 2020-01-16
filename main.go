@@ -47,12 +47,12 @@ var (
 
 // values to convert to JSON
 type BleDev struct {
-	Addr     string
-	Rssi     int64
-	Contable bool
-	Name     string
-	Services []string
-	ManData  []byte
+	Addr        string
+	Rssi        int64
+	Connectable bool
+	Name        string
+	Services    []string
+	MData       []byte
 	//Scanned 	time.Time
 }
 
@@ -105,13 +105,13 @@ func bleScan(newAdv advType) {
 func (adv *advType) advHandler(a ble.Advertisement) {
 
 	bDev := BleDev{
-		Addr:     a.Addr().String(),
-		Rssi:     int64(a.RSSI()),
-		Contable: false,
+		Addr:        a.Addr().String(),
+		Rssi:        int64(a.RSSI()),
+		Connectable: false,
 	}
 
 	if a.Connectable() {
-		bDev.Contable = true
+		bDev.Connectable = true
 	}
 	if len(a.LocalName()) > 0 {
 		bDev.Name = a.LocalName()
@@ -120,7 +120,7 @@ func (adv *advType) advHandler(a ble.Advertisement) {
 		//bDev.Services = string(a.Services())
 	}
 	if len(a.ManufacturerData()) > 0 {
-		bDev.ManData = a.ManufacturerData()
+		bDev.MData = a.ManufacturerData()
 	}
 
 	var jsonData []byte

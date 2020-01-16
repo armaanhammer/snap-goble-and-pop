@@ -12,7 +12,7 @@ parts:
   snap-goble-and-pop:
     # See 'snapcraft plugins'
     plugin: go
-    #go-importpath: github.com/gchaincl/httplab
-    source: ., ../github.com
-    source-type: git
+    # go-importpath: github.com/gchaincl/httplab
+    source: . # , ../github.com
+    # source-type: git
 

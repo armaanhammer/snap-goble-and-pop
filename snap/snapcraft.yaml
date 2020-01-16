@@ -7,7 +7,12 @@ description: |
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
+
 parts:
-  my-part:
+  snap-goble-and-pop:
     # See 'snapcraft plugins'
     plugin: go
+    #go-importpath: github.com/gchaincl/httplab
+    source: ., ../github.com
+    source-type: git
+

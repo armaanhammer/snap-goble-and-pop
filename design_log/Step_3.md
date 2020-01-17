@@ -72,3 +72,34 @@ After hours and much gnashing of teeth: found two problems building from git res
 2. References in github.com/rigado/ble that point back to github.com/go-ble/ble which has bug.
 
 Seems only way to build project currently is to pull github.com/go-ble/ble locally, remove the bug, and build using the local directory.
+
+### No Joy
+
+Unfortunately, even after cloning the repo and programmatically removing every reference to `go-ble` from it, snapcraft still returns this:
+
+```
+snapcraft-snap-goble-and-pop # snapcraft clean
+Cleaning up staging area
+Cleaning up parts directory
+snapcraft-snap-goble-and-pop # snapcraft
+The 'snap' directory is meant specifically for snapcraft, but it contains the following non-snapcraft-related paths, which is unsupported and will cause unexpected behavior:
+- .snapcraft.yaml.swp
+- snap-goble-and-pop_0.1_amd64.snap
+- snapcraft.yaml.even.newer
+- snapcraft.yaml.old
+- snapcraft.yaml.old.newer
+- wtf.yaml
+
+If you must store these files within the 'snap' directory, move them to 'snap/local', which is ignored by snapcraft.
+Pulling snap-goble-and-pop 
+Cloning into '/root/parts/snap-goble-and-pop/src'...
+done.
+go get -t -d ./github.com/armaanhammer/snap-goble-and-pop/...
+Building snap-goble-and-pop 
+go build -o /root/parts/snap-goble-and-pop/go/bin/snap-goble-and-pop github.com/armaanhammer/snap-goble-and-pop
+# github.com/go-ble/ble/linux/hci
+github.com/go-ble/ble/linux/hci/hci.go:316:5: undefined: log
+Failed to run 'go build -o /root/parts/snap-goble-and-pop/go/bin/snap-goble-and-pop github.com/armaanhammer/snap-goble-and-pop' for 'snap-goble-and-pop': Exited with code 2.
+Verify that the part is using the correct parameters and try again.
+snapcraft-snap-goble-and-pop # 
+```

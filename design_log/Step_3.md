@@ -67,7 +67,7 @@ osboxes@osboxes:~/go/src/snap-goble-and-pop$
 Uncertain whether paths and directories mentioned are within the virtual build environment or within the main system.
 
 ### Some success
-After hours and much knashing of teeth: finding two problems building from git resources:
+After hours and much gnashing of teeth: finding two problems building from git resources:
 1. Bug in github.com/go-ble/ble
 2. References in github.com/rigado/ble that point back to github.com/go-ble/ble which has a bug.
 

@@ -16,8 +16,8 @@ import (
 	"time"
 	//"os"
 
-	"github.com/go-ble/ble"
-	"github.com/go-ble/ble/examples/lib/dev"
+	"github.com/armaanhammer/ble"
+	"github.com/armaanhammer/ble/examples/lib/dev"
 	"github.com/pkg/errors"
 
 	MQTT "github.com/eclipse/paho.mqtt.golang"
@@ -115,6 +115,7 @@ func (adv *advType) advHandler(a ble.Advertisement) {
 	}
 	if len(a.LocalName()) > 0 {
 		bDev.Name = a.LocalName()
+		//fmt.Println(a.LocalName)
 	}
 	if len(a.Services()) > 0 {
 		//bDev.Services = string(a.Services())

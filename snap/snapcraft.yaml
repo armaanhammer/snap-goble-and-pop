@@ -1,26 +1,21 @@
-name: hello
-base: core
-version: '0.1'
-summary: work please
+name: snap-goble-and-pop
+version: "0.1"
+summary: Work now.
 description: |
-  I would like it very much if you would work.
-grade: devel
+  work work work work work
+
 confinement: devmode
+base: core
+
+parts:
+  snap-goble-and-pop:
+    plugin: go
+    go-importpath: github.com/armaanhammer/snap-goble-and-pop
+    source: .
+    source-type: git
+    build-packages:
+      - gcc
 
 apps:
   snap-goble-and-pop:
     command: bin/snap-goble-and-pop
-
-parts:
-  snap-goble-and-pop:
-    source: .
-    plugin: go
-    #  go-ble:
-    #    source: ../github.com/go-ble/ble
-    #    plugin: go
-    #    source-type: git
-    #  paho-mqtt-golang:
-    #    source: ../github.com/eclipse/paho.mqtt.golang
-    #    plugin: go
-    #    source-type: git
-

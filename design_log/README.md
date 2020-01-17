@@ -17,11 +17,11 @@ Table of Contents
 
 ### * [Step 1](Step_1.md) Communicate over BLE with Go
 
+### * [Step 2](Step_2.md) Pipe data over MQTT 
+
+### * [Step 3](Step_3.md) Build a snap
+
 <!---
-
-### * [Step 2](Step_2.md) Something 
-
-### * [Step 3](Step_3.md) Something MQTT?
 
 ### * [Step 4](Step_4.md) Something
 

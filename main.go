@@ -13,8 +13,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os/exec" // needed for checkRoot()
+	"strconv" //
 	"time"
-	//"os"
 
 	"github.com/armaanhammer/ble"
 	"github.com/armaanhammer/ble/examples/lib/dev"
@@ -28,6 +29,8 @@ type advType struct {
 	name string
 }
 
+// globals
+// before v1.0, need to determine which can safely remain globals
 var (
 	// BLE
 	device = flag.String("device", "default", "implementation of ble")
@@ -58,6 +61,8 @@ type BleDev struct {
 
 func main() {
 	flag.Parse()
+
+	checkRoot()
 
 	// BLE setup
 	d, err := dev.NewDevice(*device)
@@ -91,6 +96,32 @@ func main() {
 
 	go bleScan(*newAdv)
 	mqttSend(client, *newAdv)
+}
+
+func checkRoot() {
+	// https://www.socketloop.com/tutorials/golang-force-your-program-to-run-with-root-permissions
+	cmd := exec.Command("id", "-u")
+	output, err := cmd.Output()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// output has trailing \n
+	// need to remove the \n
+	// otherwise it will cause error for strconv.Atoi
+	// log.Println(output[:len(output)-1])
+
+	// 0 = root, 501 = non-root user
+	i, err := strconv.Atoi(string(output[:len(output)-1]))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if i != 0 {
+		log.Fatal("This program must be run as root! (sudo)")
+	}
 }
 
 func bleScan(newAdv advType) {

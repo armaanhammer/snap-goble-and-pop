@@ -1,8 +1,10 @@
 //
 // author: armaan roshani
 //
-// derived partially from: github.com/go-ble/ble/examples/basic/scanner
-//					  and: github.com/eclipse/paho.mqtt.golang/cmd/sample
+// some portions derived from:
+// - github.com/go-ble/ble/examples/basic/scanner
+// - github.com/eclipse/paho.mqtt.golang/cmd/sample
+// - socketloop.com/tutorials/golang-force-your-program-to-run-with-root-permissions
 //
 
 package main
@@ -99,7 +101,6 @@ func main() {
 }
 
 func checkRoot() {
-	// https://www.socketloop.com/tutorials/golang-force-your-program-to-run-with-root-permissions
 	cmd := exec.Command("id", "-u")
 	output, err := cmd.Output()
 

@@ -30,4 +30,5 @@ func (adv *advType) advHandler(a ble.Advertisement) {
 	fmt.Printf("Hello from inside adv: %s", adv.name)
 	// send something on the channel
 	adv.c <- "hello!"
+}
 ```

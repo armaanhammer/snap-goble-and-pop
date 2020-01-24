@@ -3,6 +3,10 @@
 
 An IoT project written in Go for BLE devices, to be distributed as a [Snap](https://snapcraft.io/). 
 
+Uses:
+- github.com/go-ble/ble
+- github.com/eclipse/paho.mqtt.golang
+
 The Snap binary currently exists in this repo. It will be added to the [Snap Store](https://snapcraft.io/store) once it is past proof-of-concept stage.
 
 ## Current

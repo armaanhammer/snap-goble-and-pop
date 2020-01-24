@@ -22,7 +22,7 @@ Current iteration is proof-of-concept. When activated, it scans for all BLE devi
 1. Make sure you have a BLE device attached to your system
 1. Enter: `sudo snap-goble-and-pop`
 
-By default:
+#### By default:
 - The snap connects to an unencrypted broker on localhost port 1883 running TCP (default "tcp://127.0.0.1:1883"). This can be changed by passing the `-broker` flag to the snap. 
 - The snap scans for a duration of five seconds (default 5s). This can be changed by passing the `-du` flag.
 - The snap publishes to MQTT topic ble/test (default "ble/test"). This can be changed by passing the `-topic` flag.
